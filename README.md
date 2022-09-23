@@ -10,4 +10,4 @@
 
 ***Screen shoot:***
 
-![Application screen shot](assets/sloar-vue.png)
+![Application screen shot](https://i.postimg.cc/qBxfTqv1/solar-vue.png)
