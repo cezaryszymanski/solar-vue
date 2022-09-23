@@ -5,7 +5,7 @@
       scroll to move
     </div>
     <div class="system-count">
-      {{ Math.round(y * 0.3)}} earth days
+      {{ timePassed }}
     </div>
     <div class="system-container">
       <div v-for="planet in planets" :key="planet.name" class="orbit" :class="`orbit--${planet.name}`">
@@ -21,7 +21,7 @@
 
 
 <script setup>
-import { ref, watch } from 'vue'
+import { computed, ref, watch } from 'vue'
 import gsap from 'gsap'
 import { useWindowScroll  } from '@vueuse/core'
 
@@ -71,6 +71,11 @@ watch(y, (newValue) => {
     })
   }
 })
+
+const timePassed = computed(() => Math.round(y.value * 0.3) <= 365 ?
+  `${Math.round(y.value * 0.3)} earth days`: 
+  `${(Math.round(y.value * 0.3) / 365).toFixed(2)} earth years` 
+)
 
 </script>
 

@@ -8,6 +8,6 @@
 - vue-use 9.2
 - gsap 3.11
 
-***Screen shoot:***
+***Screen shot:***
 
 ![Application screen shot](https://i.postimg.cc/qBxfTqv1/solar-vue.png)
