@@ -21,7 +21,7 @@
 
 
 <script setup>
-import { computed, ref, watch } from 'vue'
+import { computed, onMounted, ref, watch } from 'vue'
 import gsap from 'gsap'
 import { useWindowScroll  } from '@vueuse/core'
 
@@ -63,14 +63,21 @@ const planets = ref([
   },
 ])
 
-watch(y, (newValue) => {
-  if (newValue) {
-    planets.value.forEach((planet) => {
-      gsap.from(`.orbit--${planet.name}`, { rotate: newValue / planet.slowFactor * 1.5, duration: 1 })
-      gsap.from(`.planet__label--${planet.name}`, { rotate: -(newValue / planet.slowFactor * 1.5), duration: 1 })
-    })
-  }
+const rotatePlanets = (scroll, duration = 1) => {
+  planets.value.forEach((planet) => {
+    const angle = scroll / planet.slowFactor * 1.5
+    gsap.to(`.orbit--${planet.name}`, { rotate: angle, duration, overwrite: true })
+    gsap.to(`.planet__label--${planet.name}`, { rotate: -angle, duration, overwrite: true })
+  })
+}
+
+onMounted(() => {
+  // Let GSAP own the centering transform so it stays responsive alongside the rotation
+  gsap.set('.orbit', { x: 0, y: 0, xPercent: -50, yPercent: -50 })
+  rotatePlanets(y.value, 0)
 })
+
+watch(y, (newValue) => rotatePlanets(newValue))
 
 const timePassed = computed(() => Math.round(y.value * 0.3) <= 365 ?
   `${Math.round(y.value * 0.3)} earth days`: 
