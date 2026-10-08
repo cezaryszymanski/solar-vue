@@ -1,4 +1,11 @@
 @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+:root {
+  color-scheme: dark;
+}
+body {
+  background: #0d0f1a;
+  color: #e6e6ea;
+}
 #app {
   max-width: 1280px;
   height: 100000px;

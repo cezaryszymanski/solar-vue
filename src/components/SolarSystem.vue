@@ -83,7 +83,7 @@ const timePassed = computed(() => Math.round(y.value * 0.3) <= 365 ?
 .hint {
   margin: 5px 0;
   font-size: 0.8rem;
-  color: #483838;
+  color: #a9a9b8;
 }
 .system-count {
   margin: 10px 0;
@@ -95,12 +95,12 @@ const timePassed = computed(() => Math.round(y.value * 0.3) <= 365 ?
   position: relative;
   width: min(88vw, 88vh);
   height: min(88vw, 88vh);
-  border: 1px solid lightgray;
+  border: 1px solid #2a2e45;
 }
 .orbit {
   position: absolute;
   border-radius: 50%;
-  border: 1px solid rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.25);
   top: 50%;
   left: 50%;
   transform: translateY(-50%) translateX(-50%);
@@ -114,6 +114,7 @@ const timePassed = computed(() => Math.round(y.value * 0.3) <= 365 ?
   height: 8%;
   border-radius: 50%;
   background: #FD841F;
+  box-shadow: 0 0 24px rgba(253, 132, 31, 0.5);
 }
 .planet {
   position: absolute;
@@ -124,7 +125,7 @@ const timePassed = computed(() => Math.round(y.value * 0.3) <= 365 ?
 .planet__label {
   position: absolute;
   font-size: 0.5rem;
-  color: #483838;
+  color: #a9a9b8;
 
 }
 .planet--mercury {
