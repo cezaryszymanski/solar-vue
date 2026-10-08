@@ -113,8 +113,25 @@ const timePassed = computed(() => Math.round(y.value * 0.3) <= 365 ?
   width: 8%;
   height: 8%;
   border-radius: 50%;
-  background: #FD841F;
-  box-shadow: 0 0 24px rgba(253, 132, 31, 0.5);
+  background: radial-gradient(circle, #FFD27A 0%, #FDA43F 45%, #FD841F 100%);
+  box-shadow:
+    0 0 12px rgba(255, 196, 92, 0.8),
+    0 0 36px rgba(253, 132, 31, 0.6),
+    0 0 80px rgba(253, 100, 20, 0.35);
+  animation: sun-glow 4s ease-in-out infinite;
+}
+@keyframes sun-glow {
+  50% {
+    box-shadow:
+      0 0 16px rgba(255, 196, 92, 0.9),
+      0 0 48px rgba(253, 132, 31, 0.7),
+      0 0 110px rgba(253, 100, 20, 0.45);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .sun {
+    animation: none;
+  }
 }
 .planet {
   position: absolute;
