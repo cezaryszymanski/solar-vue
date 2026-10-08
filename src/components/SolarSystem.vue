@@ -21,7 +21,7 @@
 
 
 <script setup>
-import { computed, ref, watch } from 'vue'
+import { computed, onMounted, ref, watch } from 'vue'
 import gsap from 'gsap'
 import { useWindowScroll  } from '@vueuse/core'
 
@@ -63,14 +63,21 @@ const planets = ref([
   },
 ])
 
-watch(y, (newValue) => {
-  if (newValue) {
-    planets.value.forEach((planet) => {
-      gsap.from(`.orbit--${planet.name}`, { rotate: newValue / planet.slowFactor * 1.5, duration: 1 })
-      gsap.from(`.planet__label--${planet.name}`, { rotate: -(newValue / planet.slowFactor * 1.5), duration: 1 })
-    })
-  }
+const rotatePlanets = (scroll, duration = 1) => {
+  planets.value.forEach((planet) => {
+    const angle = scroll / planet.slowFactor * 1.5
+    gsap.to(`.orbit--${planet.name}`, { rotate: angle, duration, overwrite: true })
+    gsap.to(`.planet__label--${planet.name}`, { rotate: -angle, duration, overwrite: true })
+  })
+}
+
+onMounted(() => {
+  // Let GSAP own the centering transform so it stays responsive alongside the rotation
+  gsap.set('.orbit', { x: 0, y: 0, xPercent: -50, yPercent: -50 })
+  rotatePlanets(y.value, 0)
 })
+
+watch(y, (newValue) => rotatePlanets(newValue))
 
 const timePassed = computed(() => Math.round(y.value * 0.3) <= 365 ?
   `${Math.round(y.value * 0.3)} earth days`: 
@@ -83,24 +90,25 @@ const timePassed = computed(() => Math.round(y.value * 0.3) <= 365 ?
 .hint {
   margin: 5px 0;
   font-size: 0.8rem;
-  color: #483838;
+  color: #a9a9b8;
 }
 .system-count {
   margin: 10px 0;
 }
 .animation-container {
   position: fixed;
+  text-align: center;
 }
 .system-container {
   position: relative;
   width: min(88vw, 88vh);
   height: min(88vw, 88vh);
-  border: 1px solid lightgray;
+  border: 1px solid #2a2e45;
 }
 .orbit {
   position: absolute;
   border-radius: 50%;
-  border: 1px solid rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.25);
   top: 50%;
   left: 50%;
   transform: translateY(-50%) translateX(-50%);
@@ -113,7 +121,25 @@ const timePassed = computed(() => Math.round(y.value * 0.3) <= 365 ?
   width: 8%;
   height: 8%;
   border-radius: 50%;
-  background: #FD841F;
+  background: radial-gradient(circle, #FFD27A 0%, #FDA43F 45%, #FD841F 100%);
+  box-shadow:
+    0 0 12px rgba(255, 196, 92, 0.8),
+    0 0 36px rgba(253, 132, 31, 0.6),
+    0 0 80px rgba(253, 100, 20, 0.35);
+  animation: sun-glow 4s ease-in-out infinite;
+}
+@keyframes sun-glow {
+  50% {
+    box-shadow:
+      0 0 16px rgba(255, 196, 92, 0.9),
+      0 0 48px rgba(253, 132, 31, 0.7),
+      0 0 110px rgba(253, 100, 20, 0.45);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .sun {
+    animation: none;
+  }
 }
 .planet {
   position: absolute;
@@ -124,7 +150,7 @@ const timePassed = computed(() => Math.round(y.value * 0.3) <= 365 ?
 .planet__label {
   position: absolute;
   font-size: 0.5rem;
-  color: #483838;
+  color: #a9a9b8;
 
 }
 .planet--mercury {
