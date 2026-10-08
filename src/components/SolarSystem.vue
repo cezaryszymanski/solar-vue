@@ -90,6 +90,7 @@ const timePassed = computed(() => Math.round(y.value * 0.3) <= 365 ?
 }
 .animation-container {
   position: fixed;
+  text-align: center;
 }
 .system-container {
   position: relative;
